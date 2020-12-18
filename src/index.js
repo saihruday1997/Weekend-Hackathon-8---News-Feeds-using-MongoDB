@@ -14,18 +14,17 @@ app.get("/newFeeds", (req, res) => {
     let limit = parseInt(req.query.limit);
     let offset = parseInt(req.query.offset);
 
-    if(!limit || isNaN(limit) || limit<0){
+    if (!limit || isNaN(limit) || limit < 0) {
         limit = onePageArticleCount;
     }
 
-    if(!offset || isNaN(offset) || offset<0){
+    if (!offset || isNaN(offset) || offset < 0) {
         offset = 0;
     }
 
-    newsArticleModel.find()
-        .then(result => res.status(200).send(result.slice(offset, limit+offset)))
-        .catch(err => res.send(err.message));
-    })
+    newsArticleModel.find().skip(offset).limit(limit)
+        .then(result => res.status(200).send(result));
+});
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
