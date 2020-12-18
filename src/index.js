@@ -11,14 +11,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/newFeeds", (req, res) => {
-    let limit = parseInt(req.query.limit);
-    let offset = parseInt(req.query.offset);
+    let givenLimit = req.query.limit;
+    let givenOffset = req.query.offset;
 
-    if (!limit || isNaN(limit) || limit < 0) {
+    let limit = parseInt(givenLimit);
+    let offset = parseInt(givenOffset);
+
+    if (!givenLimit || isNaN(limit) || limit < 0) {
         limit = onePageArticleCount;
     }
 
-    if (!offset || isNaN(offset) || offset < 0) {
+    if (!givenOffset || isNaN(offset)) {
         offset = 0;
     }
 
