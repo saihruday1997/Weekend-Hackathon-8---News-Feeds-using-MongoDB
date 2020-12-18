@@ -17,12 +17,19 @@ app.get("/newFeeds", (req, res) => {
     let limit = parseInt(givenLimit);
     let offset = parseInt(givenOffset);
 
-    if (!givenLimit || isNaN(limit) || limit < 0) {
+    if (!givenLimit) {
         limit = onePageArticleCount;
     }
 
     if (!givenOffset || isNaN(offset)) {
         offset = 0;
+    }
+
+    if (isNaN(limit) || limit < 0) {
+        limit = onePageArticleCount;
+        if (!givenOffset) {
+            offset = 0;
+        }
     }
 
     newsArticleModel.find().skip(offset).limit(limit)
