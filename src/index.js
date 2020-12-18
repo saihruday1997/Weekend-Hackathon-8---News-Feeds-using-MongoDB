@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get("/newFeeds", (req, res) => {
     newsArticleModel.paginate({}, {offset: 0, limit: 10})
-        .then(result => res.send(result));
+        .then(result => res.status(200).send(result));
 });
 
 
