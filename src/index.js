@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 8080
-const newsArticleModel = require("./connector");
+const {newsArticleModel} = require("./connector");
 
 const onePageArticleCount = 10
 
@@ -23,7 +23,8 @@ app.get("/newFeeds", (req, res) => {
     }
 
     newsArticleModel.find().skip(offset).limit(limit)
-        .then(result => res.status(200).send(result));
+        .then(result => res.status(200).send(result))
+        .catch(err => res.send(err.message));
 });
 
 
