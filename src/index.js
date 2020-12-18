@@ -18,7 +18,7 @@ app.get("/newFeeds", (req, res) => {
         limit = onePageArticleCount;
     }
 
-    if (!offset || isNaN(offset) || offset < 0) {
+    if (!offset || isNaN(offset)) {
         offset = 0;
     }
 
