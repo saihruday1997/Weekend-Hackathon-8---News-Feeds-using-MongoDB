@@ -11,8 +11,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/newFeeds", (req, res) => {
-    let limit = req.query.limit;
-    let offset = req.query.offset;
+    let limit = parseInt(req.query.limit);
+    let offset = parseInt(req.query.offset);
 
     if(!limit || isNaN(limit) || limit<0){
         limit = onePageArticleCount;
@@ -22,12 +22,20 @@ app.get("/newFeeds", (req, res) => {
         offset = 0;
     }
 
-    newsArticleModel.paginate({}, {offset: offset, limit: limit})
-        .then(result => res.status(200).send(result))
-        .catch(err => res.status(500).send(err.message));
-});
+    let query = {};
+    query.skip = offset;
+    query.limit = limit;
 
+    newsArticleModel.find({},{}, query, function (err, result) {
+        if(err){
+            res.send(err.message);
+            return;
+        }
 
+        res.status(200).send(result);
+
+    })
+    })
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
