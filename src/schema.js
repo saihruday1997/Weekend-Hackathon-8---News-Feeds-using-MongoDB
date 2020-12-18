@@ -1,4 +1,5 @@
 const { Schema } = require('mongoose');
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const newsArticleSchema = new Schema({
     source: {
@@ -12,6 +13,8 @@ const newsArticleSchema = new Schema({
     urlToImage: Schema.Types.String,
     publishedAt: Schema.Types.String,
     content: Schema.Types.String,
-})
+});
+
+newsArticleSchema.plugin(mongoosePaginate);
 
 exports.newsArticleSchema = newsArticleSchema;
