@@ -11,9 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/newFeeds", (req, res) => {
-    newsArticleModel.paginate({}, {offset: 0, limit: onePageArticleCount})
-        .then(result => res.status(200).send(result))
-        .catch(err => res.status(400).send(err));
+    newsArticleModel.find().then(result => res.status(200).send(result));
 });
 
 
