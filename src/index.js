@@ -22,19 +22,9 @@ app.get("/newFeeds", (req, res) => {
         offset = 0;
     }
 
-    let query = {};
-    query.skip = offset;
-    query.limit = limit;
-
-    newsArticleModel.find({},{}, query, function (err, result) {
-        if(err){
-            res.send(err.message);
-            return;
-        }
-
-        res.status(200).send(result);
-
-    })
+    newsArticleModel.find()
+        .then(result => res.status(200).send(result.slice(offset, limit+offset)))
+        .catch(err => res.send(err.message));
     })
 
 
