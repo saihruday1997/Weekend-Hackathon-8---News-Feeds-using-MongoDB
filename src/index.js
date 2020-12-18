@@ -11,7 +11,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/newFeeds", (req, res) => {
-    newsArticleModel.find().then(result => res.status(200).send(result));
+    let limit = req.query.limit;
+    let offset = req.query.offset;
+
+    if(!limit || isNaN(limit) || limit<0){
+        limit = onePageArticleCount;
+    }
+
+    if(!offset || isNaN(offset) || offset<0){
+        offset = 0;
+    }
+
+    newsArticleModel.paginate({}, {offset: offset, limit: limit})
+        .then(result => res.status(200).send(result))
+        .catch(err => res.status(500).send(err.message));
 });
 
 
