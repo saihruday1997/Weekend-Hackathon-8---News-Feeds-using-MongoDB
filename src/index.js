@@ -14,9 +14,9 @@ app.get("/newFeeds", (req, res) => {
     let limit = parseInt(req.query.limit);
     let offset = parseInt(req.query.offset);
 
-    isNaN(req.query.limit) || !req.query.limit
-        ? onePageArticleCount
-        : parseInt(req.query.limit);
+    if (!limit || isNaN(limit) || limit < 0) {
+        limit = onePageArticleCount;
+    }
 
     if (!offset || isNaN(offset)) {
         offset = 0;
