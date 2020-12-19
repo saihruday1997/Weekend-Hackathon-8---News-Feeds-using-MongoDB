@@ -14,16 +14,16 @@ app.get("/newFeeds", (req, res) => {
     let limit = parseInt(req.query.limit);
     let offset = parseInt(req.query.offset);
 
-    if (!limit || isNaN(limit) || limit < 0) {
+    if (!req.query.limit || isNaN(req.query.limit) ) {
         limit = onePageArticleCount;
     }
 
-    if (!offset || isNaN(offset)) {
+    if (!req.query.offset || isNaN(req.query.offset)) {
         offset = 0;
     }
 
     newsArticleModel.find().skip(offset).limit(limit)
-        .then(result => res.status(200).send(result))
+        .then(result => {(limit===0 && offset===0) ? res.status(200).send([]) : res.status(200).send(result)})
         .catch(err => res.status(500).send(err.message));
 });
 
